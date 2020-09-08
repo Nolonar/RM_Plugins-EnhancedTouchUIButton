@@ -33,11 +33,10 @@
  * 
  * @param displayMode
  * @text Show touch UI button
- * @desc When to show the touch UI or not.
+ * @desc When to show the touch UI. Mobiles are not affected, as the touch UI will always be visible.
  * @type select
  * @option Always
  * @option User-defined
- * @option Mobile only
  * @option Never
  * @default User-defined
  * 
@@ -64,7 +63,6 @@
 
     const OPTION_DISPLAYMODE_ALWAYS = "Always";
     const OPTION_DISPLAYMODE_USERDEFINED = "User-defined";
-    const OPTION_DISPLAYMODE_MOBILEONLY = "Mobile only";
     const OPTION_DISPLAYMODE_NEVER = "Never";
 
     const parameters = PluginManager.parameters(PLUGIN_NAME);
@@ -72,7 +70,7 @@
     parameters.isTouchUIDefault = parameters.isTouchUIDefault === "true";
     parameters.textBottomButtonMode = parameters.textBottomButtonMode || "Touch UI at bottom";
 
-    const canConfigureTouchUI = parameters.displayMode === OPTION_DISPLAYMODE_USERDEFINED;
+    const canConfigureTouchUI = parameters.displayMode === OPTION_DISPLAYMODE_USERDEFINED && !Utils.isMobileDevice();
 
     const functions_old = {};
     for (const f of ["buttonAreaTop", "buttonAreaBottom", "buttonAreaHeight"]) {
@@ -95,10 +93,9 @@
     ConfigManager.applyData = function (config) {
         ConfigManager_applyData.call(this, config);
 
-        this.touchUI = {
+        this.touchUI = Utils.isMobileDevice() || {
             [OPTION_DISPLAYMODE_ALWAYS]: true,
             [OPTION_DISPLAYMODE_USERDEFINED]: this.readFlag(config, "touchUI", parameters.isTouchUIDefault),
-            [OPTION_DISPLAYMODE_MOBILEONLY]: Utils.isMobileDevice(),
             [OPTION_DISPLAYMODE_NEVER]: false
         }[parameters.displayMode];
         this.isBottomButtonMode = this.readFlag(config, "isBottomButtonMode", false);
