@@ -18,9 +18,9 @@ Adds some improvements to the existing touch UI button.
 - For user-defined display mode: allows disabling touch UI by default, so that player needs to enable it in the options first. Useful when the primary target audience uses desktops.
 - Automatically updates touch UI button when option is changed in the options window. Players can immediately see the effect of turning touch UI on or off, or moving the button to the bottom.
 
-| Project    | Latest release      |
-| ---------- | ------------------- |
-| N_TitleMap | [Download][release] |
+| Project                 | Latest release      |
+| ----------------------- | ------------------- |
+| N_EnhancedTouchUIButton | [Download][release] |
 
 [All RPG Maker plugins by Nolonar][hub]
 
