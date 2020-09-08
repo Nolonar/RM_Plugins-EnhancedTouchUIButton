@@ -6,10 +6,9 @@ Adds some improvements to the existing touch UI button.
 | ![Screenshot without plugin](plugin_off.png) | ![Screenshot with plugin](plugin_on.png) |
 
 - Fixes menu dimensions when touch UI is disabled (see above screenshot).
-- Provides the following touch UI display modes:
+- Provides the following touch UI display modes (this does not affect mobiles, as the touch UI will always be visible):
   - Always: Touch UI can not be disabled.
   - User-defined: The default behavior of RPG Maker MZ.
-  - Mobile only: Touch UI can not be disabled on mobile devices, and can not be enabled otherwise.
   - Never: Touch UI can not be enabled.
 - Adds an option to display the touch UI button at the bottom.  
 ![Screenshot with bottom button](bottom_button.png)
