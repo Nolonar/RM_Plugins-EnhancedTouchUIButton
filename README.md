@@ -32,4 +32,4 @@ Tested and confirmed working:
 According to [LICENSE](LICENSE).
 
   [hub]: https://github.com/Nolonar/RM_Plugins
-  [release]: https://github.com/Nolonar/RM_Plugins-TitleMap/releases/latest/download/N_TitleMap.js
+  [release]: https://github.com/Nolonar/RM_Plugins-EnhancedTouchUIButton/releases/latest/download/N_EnhancedTouchUIButton.js
