@@ -60,7 +60,7 @@
  */
 
 (() => {
-    const PLUGIN_NAME = "N_ConfigureTouchUI";
+    const PLUGIN_NAME = "N_EnhancedTouchUIButton";
 
     const OPTION_DISPLAYMODE_ALWAYS = "Always";
     const OPTION_DISPLAYMODE_USERDEFINED = "User-defined";
