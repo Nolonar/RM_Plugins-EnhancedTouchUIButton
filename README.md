@@ -1,9 +1,9 @@
 # N_EnhancedTouchUIButton
 Adds some improvements to the existing touch UI button.
 
-| Original                                    | N_EnhancedTouchUIButton                  |
-| ------------------------------------------- | ---------------------------------------- |
-| [Screenshot without plugin](plugin_off.png) | ![Screenshot with plugin](plugin_on.png) |
+| Original                                     | N_EnhancedTouchUIButton                  |
+| -------------------------------------------- | ---------------------------------------- |
+| ![Screenshot without plugin](plugin_off.png) | ![Screenshot with plugin](plugin_on.png) |
 
 - Fixes menu dimensions when touch UI is disabled (see above screenshot).
 - Provides the following touch UI display modes:
