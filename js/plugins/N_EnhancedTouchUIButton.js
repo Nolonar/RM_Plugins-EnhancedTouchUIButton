@@ -43,7 +43,7 @@
  * @param isTouchUIDefault
  * @parent displayMode
  * @text Show button by default
- * @desc "User-defined" only. If Off, players must enable it in the options first.
+ * @desc "User-defined" only. If OFF, players must enable it in the options first.
  * @type boolean
  * @default false
  * 
@@ -54,7 +54,7 @@
  * @default Touch UI at bottom
  * 
  * 
- * @help Version 1.0.0
+ * @help Version 1.0.1
  * This plugin does not provide plugin commands.
  */
 
@@ -65,12 +65,16 @@
     const OPTION_DISPLAYMODE_USERDEFINED = "User-defined";
     const OPTION_DISPLAYMODE_NEVER = "Never";
 
+    const SYMBOL_TOUCHUI = "touchUI";
+    const SYMBOL_BOTTOMBUTTONMODE = "isBottomButtonMode";
+
     const parameters = PluginManager.parameters(PLUGIN_NAME);
     parameters.displayMode = parameters.displayMode || OPTION_DISPLAYMODE_USERDEFINED;
     parameters.isTouchUIDefault = parameters.isTouchUIDefault === "true";
     parameters.textBottomButtonMode = parameters.textBottomButtonMode || "Touch UI at bottom";
 
     const canConfigureTouchUI = parameters.displayMode === OPTION_DISPLAYMODE_USERDEFINED && !Utils.isMobileDevice();
+    const canConfigureButtonBottom = () => canConfigureTouchUI || ConfigManager.touchUI;
 
     const functions_old = {};
     for (const f of ["buttonAreaTop", "buttonAreaBottom", "buttonAreaHeight"]) {
@@ -95,27 +99,27 @@
 
         this.touchUI = Utils.isMobileDevice() || {
             [OPTION_DISPLAYMODE_ALWAYS]: true,
-            [OPTION_DISPLAYMODE_USERDEFINED]: this.readFlag(config, "touchUI", parameters.isTouchUIDefault),
+            [OPTION_DISPLAYMODE_USERDEFINED]: this.readFlag(config, SYMBOL_TOUCHUI, parameters.isTouchUIDefault),
             [OPTION_DISPLAYMODE_NEVER]: false
         }[parameters.displayMode];
-        this.isBottomButtonMode = this.readFlag(config, "isBottomButtonMode", false);
+        this.isBottomButtonMode = this.readFlag(config, SYMBOL_BOTTOMBUTTONMODE, false);
     };
 
     const Window_Options_addGeneralOptions = Window_Options.prototype.addGeneralOptions;
     Window_Options.prototype.addGeneralOptions = function () {
         Window_Options_addGeneralOptions.call(this);
 
-        if (canConfigureTouchUI)
-            this.addCommand(parameters.textBottomButtonMode, "isBottomButtonMode");
-        else
-            this._list.remove(this._list.find(e => e.symbol === "touchUI"));
+        if (!canConfigureTouchUI)
+            this._list.remove(this._list.find(e => e.symbol === SYMBOL_TOUCHUI));
+        if (canConfigureButtonBottom())
+            this.addCommand(parameters.textBottomButtonMode, SYMBOL_BOTTOMBUTTONMODE);
     }
 
     const Window_Options_setConfigValue = Window_Options.prototype.setConfigValue;
     Window_Options.prototype.setConfigValue = function (symbol, value) {
         Window_Options_setConfigValue.call(this, symbol, value);
 
-        if (["touchUI", "isBottomButtonMode"].find(s => symbol === s))
+        if ([SYMBOL_TOUCHUI, SYMBOL_BOTTOMBUTTONMODE].some(s => symbol === s))
             updateButtons();
     }
 
@@ -132,8 +136,10 @@
 
     const Scene_Options_maxCommands = Scene_Options.prototype.maxCommands;
     Scene_Options.prototype.maxCommands = function () {
-        const additionalCommands = canConfigureTouchUI ? 1 : -1;
-        return Scene_Options_maxCommands.call(this) + additionalCommands;
+        let maxCommands = Scene_Options_maxCommands.call(this);
+        if (!canConfigureTouchUI) maxCommands--;
+        if (canConfigureButtonBottom()) maxCommands++;
+        return maxCommands;
     }
 
     const Scene_Options_needsCancelButton = Scene_Options.prototype.needsCancelButton;
